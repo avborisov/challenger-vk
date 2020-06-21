@@ -76,8 +76,8 @@ const App = () => {
 		fetchData();
 	}, []);
 
-	const go = e => {
-		setActivePanel(e.currentTarget.dataset.to);
+	const go = (panel) => {
+		setActivePanel(panel);
 	};
 
 	const viewIntro = async function () {
@@ -87,7 +87,8 @@ const App = () => {
 				value: JSON.stringify({
 					hasSeenIntro: true
 				})
-			})
+			});
+			go(ROUTES.HOME);
 		} catch(error) {
 			setSnackbar(
 				<Snackbar
@@ -108,8 +109,19 @@ const App = () => {
 
 	return (
 		<View activePanel={activePanel} popout={popout}>
-			<Home id={ROUTES.HOME} fetchedUser={fetchedUser} go={go} snackbarError={snackbar}/>
-			<Intro id={ROUTES.INTRO} go={go} snackbarError={snackbar}/>
+			<Home
+				id={ROUTES.HOME}
+				fetchedUser={fetchedUser}
+				go={go}
+				snackbarError={snackbar}
+			/>
+			<Intro 
+				id={ROUTES.INTRO}
+				fetchedUser={fetchedUser}
+				go={viewIntro}
+				snackbarError={snackbar}
+				userHasSeenIntro={userHasSeenIntro}
+			/>
 		</View>
 	);
 }
